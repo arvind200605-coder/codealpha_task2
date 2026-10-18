@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Quotely – Daily Quotes</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700&family=Newsreader:ital,wght@0,400;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+:root{--h:250;--l:90%;--bg:#eef0f8;--card:#fff;--ink:#16152b;--mute:#66658a;--line:#dcdcee;--acc:#5b4bdb;--acc2:#18b6a4;--sh:0 14px 32px -14px rgba(40,30,120,.3);box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--l:20%;--bg:#0f1020;--card:#1a1b34;--ink:#f0f0ff;--mute:#a3a2c8;--line:#2d2e52;--acc:#8c7dff;--sh:0 14px 32px -14px #000}}
+:root[data-theme="dark"]{--l:20%;--bg:#0f1020;--card:#1a1b34;--ink:#f0f0ff;--mute:#a3a2c8;--line:#2d2e52;--acc:#8c7dff;--sh:0 14px 32px -14px #000}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.5 Figtree,system-ui,sans-serif;min-height:100vh;transition:background .4s}
+body::before{content:"";position:fixed;inset:0;z-index:-1;background:radial-gradient(90% 55% at 15% 0%,hsl(var(--h) 80% var(--l)/.9),transparent 70%),radial-gradient(70% 45% at 100% 100%,hsl(calc(var(--h) + 50) 70% var(--l)/.7),transparent 70%);transition:.6s}
+main{max-width:520px;margin:0 auto;padding:20px 18px 110px}
+h1,h2,h3{margin:0}h2{font-size:15px;font-weight:700;margin:26px 0 10px}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+button:focus-visible,input:focus-visible{outline:3px solid var(--acc);outline-offset:2px}
+.top{display:flex;justify-content:space-between;align-items:center}
+.top h1{font-size:26px;font-weight:700}
+.chip{background:var(--card);border-radius:99px;padding:6px 14px;font-weight:600;font-size:14px;box-shadow:var(--sh)}
+.lab{font-weight:700;font-size:13px;color:var(--acc);margin:18px 4px 8px}
+.card{background:var(--card);border-radius:26px;padding:26px 24px 16px;box-shadow:var(--sh);animation:pop .5s cubic-bezier(.2,.8,.2,1)}
+.mark{font:italic 54px/0.8 Newsreader,serif;color:var(--acc);height:30px}
+.qt{font:italic 400 24px/1.4 Newsreader,Georgia,serif;margin:8px 0 12px}
+.au{font-weight:600;color:var(--mute);margin:0;text-align:right}
+.tag{display:inline-block;margin-top:10px;font-size:12px;font-weight:600;color:var(--acc);background:color-mix(in srgb,var(--acc) 14%,transparent);border-radius:99px;padding:2px 10px}
+.acts{display:flex;justify-content:space-around;border-top:1px solid var(--line);margin-top:14px;padding-top:8px}
+.acts button{font-size:22px;min-width:48px;min-height:44px;border-radius:14px}
+.acts button:active{background:var(--line)}.heart.on{color:#e5365c;animation:beat .45s}
+.btn{display:block;width:100%;min-height:52px;border-radius:18px;font-weight:700;margin-top:12px;background:var(--acc);color:#fff;box-shadow:var(--sh)}
+.btn.alt{background:var(--card);color:var(--ink)}
+.moods{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.moods button,.qa button{background:var(--card);border-radius:18px;padding:10px 4px;font-size:13px;font-weight:600;box-shadow:var(--sh);min-height:64px;transition:transform .2s}
+.moods button span{display:block;font-size:24px}.moods .sel{outline:3px solid var(--acc);transform:scale(1.05)}
+.qa{display:grid;grid-template-columns:1fr 1fr;gap:10px}.qa button{min-height:52px;font-size:15px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--card);border-top:1px solid var(--line);display:flex;justify-content:center;padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+nav button{flex:1;max-width:120px;min-height:50px;font-size:12px;font-weight:600;color:var(--mute);border-radius:14px}
+nav button b{display:block;font-size:20px;font-weight:400}nav .on{color:var(--acc)}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px}
+.chips button{flex:none;background:var(--card);border-radius:99px;padding:8px 16px;font-weight:600;font-size:14px;min-height:40px}
+.chips .on{background:var(--acc);color:#fff}
+input[type=search]{width:100%;min-height:48px;border-radius:16px;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:0 16px;font:inherit}
+.pager{display:flex;align-items:center;justify-content:space-between;margin-top:12px;color:var(--mute);font-weight:600}
+.pager button{background:var(--card);border-radius:99px;min-width:48px;min-height:48px;font-size:20px;box-shadow:var(--sh)}
+.list .card{margin-bottom:14px;padding-top:18px}.list .qt{font-size:20px}
+.empty{text-align:center;padding:48px 20px;color:var(--mute)}.empty .big{font-size:56px}.empty h3{color:var(--ink);margin:8px 0}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:var(--card);border-radius:20px;padding:14px;box-shadow:var(--sh)}.stat b{display:block;font-size:26px}
+.week{display:flex;justify-content:space-between;background:var(--card);border-radius:20px;padding:14px 10px;box-shadow:var(--sh)}
+.week div{text-align:center;font-size:12px;font-weight:600;color:var(--mute)}.week i{display:block;font-style:normal;font-size:20px}.week .done i{color:var(--acc2);animation:pop .5s}
+.ach{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.a{background:var(--card);border-radius:20px;padding:14px;box-shadow:var(--sh);opacity:.4;filter:grayscale(1)}
+.a.u{opacity:1;filter:none;animation:pop .6s}.a b{font-size:26px;display:block}.a small{color:var(--mute)}
+#toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:600;opacity:0;transition:.35s;pointer-events:none;z-index:9;max-width:90vw;text-align:center}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+#modal{position:fixed;inset:0;background:rgba(10,10,30,.6);display:none;align-items:center;justify-content:center;z-index:8;padding:18px}
+#modal.show{display:flex}#modal>div{background:var(--card);border-radius:24px;padding:16px;width:100%;max-width:400px;max-height:100%;overflow:auto}
+#cv{width:100%;border-radius:14px;display:block}
+.sl{animation:sl .35s}
+@keyframes pop{from{opacity:0;transform:translateY(14px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes sl{from{opacity:0;transform:translateX(30px)}to{opacity:1;transform:none}}
+@keyframes beat{40%{transform:scale(1.5)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<script>
+try{var _s=JSON.parse(localStorage.getItem('qs.v1')||'{}');document.documentElement.dataset.theme=_s.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light')}catch(e){}
+</script>
+</head>
+<body>
+<main id="app"></main>
+<nav id="nav"></nav>
+<div id="toast" role="status"></div>
+<div id="modal"><div id="mbox"></div></div>
+<script>
+/* ===== Quote database ===== */
+const RAW=[
+["The future depends on what you do today.","Mahatma Gandhi","Motivation","motivated"],
+["It always seems impossible until it's done.","Nelson Mandela","Motivation","motivated"],
+["The only way to do great work is to love what you do.","Steve Jobs","Motivation","motivated"],
+["Whether you think you can, or you think you can't, you're right.","Henry Ford","Motivation","confident"],
+["Do what you can, with what you have, where you are.","Theodore Roosevelt","Motivation","motivated"],
+["It does not matter how slowly you go as long as you do not stop.","Confucius","Motivation","stressed"],
+["You miss 100% of the shots you don't take.","Wayne Gretzky","Motivation","confident"],
+["Believe you can and you're halfway there.","Theodore Roosevelt","Motivation","motivated"],
+["Start where you are. Use what you have. Do what you can.","Arthur Ashe","Motivation","motivated"],
+["Act as if what you do makes a difference. It does.","William James","Motivation","motivated"],
+["Success is the sum of small efforts, repeated day in and day out.","Robert Collier","Success","motivated"],
+["Success is not final, failure is not fatal: it is the courage to continue that counts.","Winston Churchill","Success","sad"],
+["I have not failed. I've just found 10,000 ways that won't work.","Thomas Edison","Success","focused"],
+["Opportunities don't happen. You create them.","Chris Grosser","Success","motivated"],
+["Success usually comes to those who are too busy to be looking for it.","Henry David Thoreau","Success","focused"],
+["The way to get started is to quit talking and begin doing.","Walt Disney","Success","motivated"],
+["Life is what happens when you're busy making other plans.","John Lennon","Life","stressed"],
+["In the middle of difficulty lies opportunity.","Albert Einstein","Life","stressed"],
+["The unexamined life is not worth living.","Socrates","Life","focused"],
+["This too shall pass.","Persian proverb","Life","sad"],
+["Life is really simple, but we insist on making it complicated.","Confucius","Life","stressed"],
+["The purpose of our lives is to be happy.","Dalai Lama","Life","happy"],
+["You only live once, but if you do it right, once is enough.","Mae West","Life","confident"],
+["Education is the most powerful weapon which you can use to change the world.","Nelson Mandela","Education","motivated"],
+["The beautiful thing about learning is that no one can take it away from you.","B.B. King","Education","happy"],
+["Live as if you were to die tomorrow. Learn as if you were to live forever.","Mahatma Gandhi","Education","focused"],
+["An investment in knowledge pays the best interest.","Benjamin Franklin","Education","focused"],
+["The mind is not a vessel to be filled, but a fire to be kindled.","Plutarch","Education","focused"],
+["The more that you read, the more things you will know.","Dr. Seuss","Education","happy"],
+["Any sufficiently advanced technology is indistinguishable from magic.","Arthur C. Clarke","Technology","happy"],
+["The best way to predict the future is to invent it.","Alan Kay","Technology","motivated"],
+["Innovation distinguishes between a leader and a follower.","Steve Jobs","Technology","confident"],
+["Programs must be written for people to read, and only incidentally for machines to execute.","Harold Abelson","Technology","focused"],
+["Simplicity is the ultimate sophistication.","Leonardo da Vinci","Technology","focused"],
+["Talk is cheap. Show me the code.","Linus Torvalds","Technology","confident"],
+["We can only see a short distance ahead, but we can see plenty there that needs to be done.","Alan Turing","Technology","motivated"],
+["A leader is one who knows the way, goes the way, and shows the way.","John C. Maxwell","Leadership","confident"],
+["When you become a leader, success is all about growing others.","Jack Welch","Leadership","focused"],
+["Leadership is the capacity to translate vision into reality.","Warren Bennis","Leadership","focused"],
+["Management is doing things right; leadership is doing the right things.","Peter Drucker","Leadership","focused"],
+["The best way to find yourself is to lose yourself in the service of others.","Mahatma Gandhi","Leadership","loved"],
+["Courage is not the absence of fear, but the triumph over it.","Nelson Mandela","Leadership","confident"],
+["Where there is love there is life.","Mahatma Gandhi","Love","loved"],
+["To love and be loved is to feel the sun from both sides.","David Viscott","Love","loved"],
+["The best thing to hold onto in life is each other.","Audrey Hepburn","Love","loved"],
+["Love all, trust a few, do wrong to none.","William Shakespeare","Love","sad"],
+["We love because it's the only true adventure.","Nikki Giovanni","Love","loved"],
+["Being deeply loved by someone gives you strength, while loving someone deeply gives you courage.","Lao Tzu","Love","loved"],
+["Happiness is not something ready made. It comes from your own actions.","Dalai Lama","Happiness","happy"],
+["Happiness depends upon ourselves.","Aristotle","Happiness","happy"],
+["For every minute you are angry you lose sixty seconds of happiness.","Ralph Waldo Emerson","Happiness","stressed"],
+["Happiness is when what you think, what you say, and what you do are in harmony.","Mahatma Gandhi","Happiness","happy"],
+["The best way to cheer yourself up is to try to cheer somebody else up.","Mark Twain","Happiness","sad"],
+["The wound is the place where the Light enters you.","Rumi","Happiness","sad"],
+["Peace comes from within. Do not seek it without.","Buddha","Happiness","stressed"],
+["A friend is someone who knows all about you and still loves you.","Elbert Hubbard","Friendship","loved"],
+["Walking with a friend in the dark is better than walking alone in the light.","Helen Keller","Friendship","loved"],
+["Friendship is born at that moment when one person says to another: What! You too?","C.S. Lewis","Friendship","happy"],
+["The only way to have a friend is to be one.","Ralph Waldo Emerson","Friendship","happy"],
+["There is nothing on this earth more to be prized than true friendship.","Thomas Aquinas","Friendship","loved"]
+];
+const DB=RAW.map((a,i)=>({id:i+1,quote:a[0],author:a[1],category:a[2],mood:a[3]}));
+const CATS=['Motivation','Success','Life','Education','Technology','Leadership','Love','Happiness','Friendship'];
+const MOODS={happy:['😊','Happy',50],motivated:['🔥','Motivated',20],sad:['😔','Sad',220],stressed:['😤','Stressed',280],confident:['💪','Confident',130],focused:['🧠','Focused',195],loved:['❤️','Loved',340]};
+const CAT_HUE={Motivation:20,Success:45,Life:200,Education:215,Technology:265,Leadership:10,Love:340,Happiness:55,Friendship:160};
+
+/* ===== Local storage ===== */
+const Store={k:'qs.v1',d:{},load(){let s={};try{s=JSON.parse(localStorage.getItem(this.k))||{}}catch(e){}
+ this.d=Object.assign({favs:[],viewed:[],days:[],streak:0,last:'',ach:{},theme:'',daily:null,moods:0,cards:0,surprises:0,mood:'',cat:'All'},s)},
+ save(){try{localStorage.setItem(this.k,JSON.stringify(this.d))}catch(e){}}};
+
+/* ===== Helpers ===== */
+const $=s=>document.querySelector(s),esc=s=>s.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const dk=(d=new Date())=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+const fmt=q=>`"${q.quote}"\n— ${q.author}`;
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2200)}
+const setHue=h=>document.documentElement.style.setProperty('--h',h);
+
+/* ===== Streak ===== */
+const Streak={touch(){const d=Store.d,t=dk();if(d.last!==t){const y=new Date();y.setDate(y.getDate()-1);d.streak=d.last===dk(y)?d.streak+1:1;d.last=t;if(!d.days.includes(t))d.days.push(t);Store.save()}},
+ week(){const n=new Date(),dow=(n.getDay()+6)%7;return['MON','TUE','WED','THU','FRI','SAT','SUN'].map((l,i)=>{const x=new Date(n);x.setDate(n.getDate()-dow+i);return{l,done:Store.d.days.includes(dk(x))}})}};
+
+/* ===== Random quote logic ===== */
+const Picker={last:0,pick(pool){let p=pool.filter(q=>q.id!==this.last);if(!p.length)p=pool;const q=p[Math.random()*p.length|0];this.last=q.id;return q},
+ daily(){const t=dk(),d=Store.d;if(!d.daily||d.daily.date!==t){const n=Math.floor(new Date(t+'T00:00:00')/864e5);d.daily={date:t,id:DB[(n*7)%DB.length].id};Store.save()}return DB[d.daily.id-1]},
+ filter(cat,mood,text){const s=(text||'').toLowerCase().trim();return DB.filter(q=>(!cat||cat==='All'||q.category===cat)&&(!mood||q.mood===mood)&&(!s||(q.quote+' '+q.author+' '+q.category).toLowerCase().includes(s)))}};
+
+/* ===== Achievements ===== */
+const D=()=>Store.d;
+const ACH=[
+{i:'🏆',n:'First Quote',t:'View your first quote.',f:()=>D().viewed.length>=1},
+{i:'❤️',n:'Quote Collector',t:'Save 5 favorite quotes.',f:()=>D().favs.length>=5},
+{i:'📚',n:'Quote Explorer',t:'View 25 different quotes.',f:()=>D().viewed.length>=25},
+{i:'🔥',n:'Motivation Seeker',t:'View 10 motivation quotes.',f:()=>D().viewed.filter(id=>DB[id-1].category==='Motivation'||DB[id-1].mood==='motivated').length>=10},
+{i:'✨',n:'Daily Reader',t:'Open the app on 7 different days.',f:()=>D().days.length>=7},
+{i:'💯',n:'Quote Master',t:'Save 25 quotes.',f:()=>D().favs.length>=25},
+{i:'😊',n:'Mood Setter',t:'Pick a mood.',f:()=>D().moods>=1},
+{i:'🖼',n:'Card Designer',t:'Create a quote card.',f:()=>D().cards>=1},
+{i:'📅',n:'Three in a Row',t:'Reach a 3 day streak.',f:()=>D().streak>=3},
+{i:'🎲',n:'Risk Taker',t:'Use Surprise Me 3 times.',f:()=>D().surprises>=3}];
+const Ach={check(){ACH.forEach(a=>{if(!D().ach[a.n]&&a.f()){D().ach[a.n]=1;Store.save();toast(`${a.i} Achievement unlocked: ${a.n}`)}})},count:()=>ACH.filter(a=>D().ach[a.n]).length};
+
+/* ===== Favorites & views ===== */
+const Favs={has:id=>D().favs.includes(id),toggle(id){const f=D().favs,i=f.indexOf(id);i<0?f.push(id):f.splice(i,1);Store.save();Ach.check();return i<0}};
+const Track={view(q){if(!D().viewed.includes(q.id)){D().viewed.push(q.id);Store.save();Ach.check()}}};
+
+/* ===== Copy / share ===== */
+async function copyQ(q){try{await navigator.clipboard.writeText(fmt(q))}catch(e){const t=document.createElement('textarea');t.value=fmt(q);document.body.appendChild(t);t.select();try{document.execCommand('copy')}catch(_){}t.remove()}toast('Copied to clipboard')}
+async function shareQ(q){if(navigator.share){try{await navigator.share({text:fmt(q)});return}catch(e){if(e.name==='AbortError')return}}copyQ(q)}
+
+/* ===== UI components ===== */
+const heart=id=>`<button class="heart ${Favs.has(id)?'on':''}" data-act="fav:${id}" aria-label="Favorite">${Favs.has(id)?'♥':'♡'}</button>`;
+const card=(q,head,cls='')=>`${head?`<div class="lab">${head}</div>`:''}<article class="card ${cls}"><div class="mark">❝</div><p class="qt">${esc(q.quote)}</p><p class="au">— ${esc(q.author)}</p><span class="tag">${q.category}</span><div class="acts">${heart(q.id)}<button data-act="copy:${q.id}" aria-label="Copy">📋</button><button data-act="share:${q.id}" aria-label="Share">↗</button><button data-act="mk:${q.id}" aria-label="Create quote card">🖼</button></div></article>`;
+const empty=(i,t,s,b)=>`<div class="empty"><div class="big">${i}</div><h3>${t}</h3><p>${s}</p>${b?`<button class="btn" data-act="${b[1]}">${b[0]}</button>`:''}</div>`;
+
+/* ===== Navigation + views ===== */
+const S={tab:'home',cur:null,curHead:'',disc:{q:'',idx:0},focus:false};
+const TABS=[['home','🏠','Home'],['discover','✨','Discover'],['favs','❤️','Favorites'],['progress','🏆','Progress']];
+function nav(){$('#nav').innerHTML=TABS.map(t=>`<button class="${S.tab===t[0]?'on':''}" data-act="tab:${t[0]}"><b>${t[1]}</b>${t[2]}</button>`).join('')}
+function go(t){S.tab=t;nav();render();scrollTo(0,0)}
+function greet(){const h=new Date().getHours();return h<12?'Good Morning':h<17?'Good Afternoon':'Good Evening'}
+
+const Views={
+home(){const d=D(),dq=Picker.daily();setHue(d.mood?MOODS[d.mood][2]:CAT_HUE[dq.category]);
+ return `<div class="top"><h1>${greet()} 👋</h1><span class="chip">🔥 ${d.streak} Day Streak</span></div>
+ ${card(dq,'🌅 QUOTE OF THE DAY')}
+ <button class="btn" data-act="new">✨ New Quote</button><button class="btn alt" data-act="surprise">🎲 Surprise Me</button>
+ <div id="cur">${S.cur?card(S.cur,S.curHead):''}</div>
+ <h2>How are you feeling?</h2><div class="moods">${Object.entries(MOODS).map(([k,v])=>`<button class="${d.mood===k?'sel':''}" data-act="mood:${k}"><span>${v[0]}</span>${v[1]}</button>`).join('')}</div>
+ <h2>Quick actions</h2><div class="qa"><button data-act="tab:favs">❤️ Favorites</button><button data-act="search">🔍 Search</button><button data-act="tab:progress">🏆 Achievements</button><button data-act="tab:discover">📚 Discover</button></div>`},
+discover(){const d=D(),pool=Picker.filter(d.cat,'',S.disc.q);if(S.disc.idx>=pool.length)S.disc.idx=0;const q=pool[S.disc.idx];if(q&&!S.disc.q)Track.view(q);
+ if(q)setHue(CAT_HUE[q.category]);
+ return `<div class="top"><h1>Discover</h1></div><div style="margin-top:14px"><input type="search" id="srch" placeholder="Search quote, author or category" value="${esc(S.disc.q)}" aria-label="Search quotes"></div>
+ <div class="chips">${['All',...CATS].map(c=>`<button class="${d.cat===c?'on':''}" data-act="cat:${c}">${c}</button>`).join('')}</div>
+ <div id="dres">${dres(pool)}</div>`},
+favs(){const l=D().favs.map(id=>DB[id-1]);return `<div class="top"><h1>Favorites</h1></div><div class="list" style="margin-top:14px">${l.length?l.map(q=>card(q,'')).join(''):empty('❤️','No favorite quotes yet.','Save quotes you love and find them here later.',['Discover Quotes','tab:discover'])}</div>`},
+progress(){const d=D();return `<div class="top"><h1>Progress</h1><button class="chip" data-act="theme">${document.documentElement.dataset.theme==='dark'?'☀️ Light':'🌙 Dark'}</button></div>
+ <h2>Your stats</h2><div class="stats"><div class="stat"><b>${d.favs.length}</b>❤️ Favorite Quotes</div><div class="stat"><b>${d.viewed.length}</b>📖 Quotes Viewed</div><div class="stat"><b>${d.streak}</b>🔥 Current Streak (days)</div><div class="stat"><b>${Ach.count()}/${ACH.length}</b>🏆 Achievements</div></div>
+ <h2>🔥 ${d.streak} Day Streak</h2><div class="week">${Streak.week().map(w=>`<div class="${w.done?'done':''}">${w.l}<i>${w.done?'✓':'○'}</i></div>`).join('')}</div>
+ <h2>Achievements</h2><div class="ach">${ACH.map(a=>`<div class="a ${d.ach[a.n]?'u':''}"><b>${a.i}</b>${a.n}<br><small>${a.t}</small></div>`).join('')}</div>`}};
+function dres(pool){if(!pool.length)return empty('🔍','No quotes found','Try another word, author or category.');
+ if(S.disc.q)return `<div class="list">${pool.map(q=>card(q,'')).join('')}</div>`;
+ const q=pool[S.disc.idx];return `<div id="dc">${card(q,'')}</div><div class="pager"><button data-act="prev" aria-label="Previous">‹</button><span>${S.disc.idx+1} / ${pool.length}</span><button data-act="next" aria-label="Next">›</button></div><button class="btn alt" data-act="surprise">🎲 Surprise Me</button>`}
+function render(){$('#app').innerHTML=Views[S.tab]();if(S.focus){S.focus=false;const s=$('#srch');s&&s.focus()}}
+
+/* ===== Actions ===== */
+function showCur(q,head){S.cur=q;S.curHead=head;Track.view(q);$('#cur').innerHTML=card(q,head);$('#cur').scrollIntoView({behavior:'smooth',block:'center'})}
+function step(n){const pool=Picker.filter(D().cat,'',S.disc.q);if(!pool.length)return;S.disc.idx=(S.disc.idx+n+pool.length)%pool.length;const q=pool[S.disc.idx];Track.view(q);setHue(CAT_HUE[q.category]);$('#dres').innerHTML=dres(pool);$('#dc .card').classList.add('sl')}
+const A={
+ tab:t=>go(t),
+ new(){const d=D();const q=Picker.pick(Picker.filter('All',d.mood));setHue(d.mood?MOODS[d.mood][2]:CAT_HUE[q.category]);showCur(q,d.mood?`${MOODS[d.mood][0]} ${MOODS[d.mood][1]} quote`:'✨ Your quote')},
+ surprise(){const q=Picker.pick(DB);D().surprises++;Store.save();setHue(Math.random()*360|0);Ach.check();if(S.tab==='home')showCur(q,`🎲 Surprise · ${q.category}`);else{S.disc.q='';D().cat=q.category;Store.save();S.disc.idx=Picker.filter(q.category).findIndex(x=>x.id===q.id);render();setHue(Math.random()*360|0);$('#dc .card').classList.add('sl')}},
+ mood(k){const d=D();if(d.mood===k){d.mood='';Store.save();return render()}d.mood=k;d.moods++;Store.save();Ach.check();render();const q=Picker.pick(Picker.filter('All',k));setHue(MOODS[k][2]);showCur(q,`Feeling ${MOODS[k][1]}? ${MOODS[k][0]}`)},
+ cat(c){D().cat=c;Store.save();S.disc.idx=0;render()},
+ prev:()=>step(-1),next:()=>step(1),
+ search(){S.focus=true;go('discover')},
+ fav(id){const on=Favs.toggle(+id);document.querySelectorAll(`[data-act="fav:${id}"]`).forEach(b=>{b.classList.toggle('on',on);b.textContent=on?'♥':'♡'});if(S.tab==='favs'&&!on)setTimeout(render,250);if(S.tab==='progress')render()},
+ copy:id=>copyQ(DB[id-1]),share:id=>shareQ(DB[id-1]),mk:id=>Maker.open(DB[id-1]),
+ theme(){const t=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=t;D().theme=t;Store.save();render()},
+ close:()=>$('#modal').classList.remove('show'),
+ th(i){Maker.th=+i;Maker.draw()},save:()=>Maker.out(false),shr:()=>Maker.out(true)};
+
+/* ===== Quote card maker ===== */
+const Maker={q:null,th:0,T:[['Minimal',['#ffffff','#e9e9f4'],'#16152b'],['Gradient',['#5b4bdb','#18b6a4'],'#ffffff'],['Dark',['#14122b','#2a2858'],'#f0f0ff'],['Elegant',['#2a1f3d','#7a4467'],'#f6e9d7'],['Nature',['#2f6b4f','#a8c98a'],'#ffffff']],
+ open(q){this.q=q;$('#mbox').innerHTML=`<h3 style="margin-bottom:10px">Create Quote Card</h3><canvas id="cv" role="img" aria-label="Quote card preview"></canvas><div class="chips">${this.T.map((t,i)=>`<button data-act="th:${i}">${t[0]}</button>`).join('')}</div><div class="qa"><button class="btn" data-act="save">Save image</button><button class="btn alt" data-act="shr">Share</button></div><button class="btn alt" data-act="close">Close</button>`;$('#modal').classList.add('show');this.draw()},
+ draw(){const c=$('#cv'),x=c.getContext('2d'),t=this.T[this.th],q=this.q;c.width=c.height=1080;const g=x.createLinearGradient(0,0,1080,1080);g.addColorStop(0,t[1][0]);g.addColorStop(1,t[1][1]);x.fillStyle=g;x.fillRect(0,0,1080,1080);
+  document.querySelectorAll('#mbox .chips button').forEach((b,i)=>b.classList.toggle('on',i===this.th));
+  x.fillStyle=t[2];x.font='italic 500 52px Newsreader,Georgia,serif';const w=q.quote.split(' ');let L=[],l='';w.forEach(s=>{if(x.measureText(l+' '+s).width>820&&l){L.push(l);l=s}else l=l?l+' '+s:s});L.push(l);
+  const y0=540-L.length*38-30;x.font='italic 160px Georgia,serif';x.globalAlpha=.35;x.fillText('❝',110,y0-10);x.globalAlpha=1;x.font='italic 500 52px Newsreader,Georgia,serif';L.forEach((s,i)=>x.fillText(s,130,y0+90+i*76));
+  x.font='600 36px Figtree,sans-serif';x.fillText('— '+q.author,130,y0+130+L.length*76);x.globalAlpha=.7;x.font='600 28px Figtree,sans-serif';x.fillText(q.category,130,990);x.textAlign='right';x.fillText('✨ Quotely',950,990);x.textAlign='left';x.globalAlpha=1},
+ out(share){$('#cv').toBlob(async b=>{const f=new File([b],'quotely-card.png',{type:'image/png'});D().cards++;Store.save();Ach.check();
+  if(share&&navigator.canShare&&navigator.canShare({files:[f]})){try{await navigator.share({files:[f]});return}catch(e){if(e.name==='AbortError')return}}
+  const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f.name;a.click();toast('Quote card saved')})}};
+
+/* ===== Events ===== */
+document.addEventListener('click',e=>{const b=e.target.closest('[data-act]');if(!b){if(e.target.id==='modal')A.close();return}const[k,v]=b.dataset.act.split(':');A[k]&&A[k](v)});
+document.addEventListener('input',e=>{if(e.target.id==='srch'){S.disc.q=e.target.value;S.disc.idx=0;$('#dres').innerHTML=dres(Picker.filter(D().cat,'',S.disc.q))}});
+let sx=0;document.addEventListener('touchstart',e=>{sx=e.touches[0].clientX},{passive:true});
+document.addEventListener('touchend',e=>{if(S.tab==='discover'&&!S.disc.q&&$('#dc')&&e.target.closest('#dc')){const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)step(dx<0?1:-1)}});
+
+/* ===== Init ===== */
+Store.load();if(D().theme)document.documentElement.dataset.theme=D().theme;
+Streak.touch();Track.view(Picker.daily());Ach.check();nav();render();
+</script>
+</body>
+</html>
